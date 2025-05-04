@@ -1,0 +1,111 @@
+html {
+    height: 100%; /* Ensure html takes full height */
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #24262d;
+    color: #519975;
+    font-family: 'Courier New', Courier, monospace;
+    margin: 0;
+    height: 100vh; /* Set body height to full viewport height */
+    padding: 20px; /* Apply padding */
+    box-sizing: border-box; /* Include padding in height calculation */
+    overflow: hidden; /* Prevent body itself from scrolling */
+    cursor: default;
+    display: flex; /* Use flexbox on body to help contain terminal */
+    flex-direction: column; /* Stack children vertically */
+}
+
+.terminal {
+    border: 1px solid #519975;
+    flex-grow: 1; /* Allow terminal to take up remaining space in body */
+    padding: 15px;
+    overflow-y: auto; /* Use auto, or scroll for testing */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    cursor: default;
+    min-height: 0; /* Important for flex children with overflow */
+}
+
+#output {
+    flex-grow: 1; /* Allow output to take available space */
+    min-height: 0; /* Important for flex children with overflow */
+    word-wrap: break-word;
+    line-height: 1.4;
+    margin-bottom: 10px;
+}
+
+.input-area {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0; /* Ensure input area doesn't grow */
+}
+
+#prompt { /* Add some spacing after the prompt */
+    margin-right: 5px; 
+}
+
+.input-area input {
+    background: transparent;
+    border: none;                  
+    outline: none;                 
+    color: #519975;                
+    width: 1ch; /* Minimum width to prevent collapsing */      
+    font-size: 1em;               
+    font-family: inherit;          
+    padding: 0;                    
+    margin: 0;                     
+    caret-color: transparent;      
+    appearance: none;              
+    -webkit-appearance: none;      
+    -moz-appearance: none;         
+    cursor: default; /* Ensure input field itself doesn't force text cursor */
+}
+
+.cursor {
+    width: 10px; 
+    height: 1.2em; 
+    background-color: #519975;     
+    display: inline-block;
+    vertical-align: middle; 
+    animation: blink 1s step-end infinite;
+    margin-left: 0px; 
+    flex-shrink: 0; /* Prevent cursor from shrinking */
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    .terminal {
+        padding: 10px;
+    }
+
+    body .input-area input {
+        font-size: 0.9em;
+    }
+}
+
+#output .prompt {
+    color: #b89076; /* Or your preferred prompt color */
+}
+
+#output .welcome-message {
+    color: #b89076; 
+}
+
+#output .all-rights-reserved {
+    color: #b1b1b1; 
+}
+
+#output .commands {
+    color: #51998d; /* Or your preferred command color */
+}

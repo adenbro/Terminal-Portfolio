@@ -1,0 +1,32 @@
+{
+  "bio": {
+    "name": "Aden Bateman-Browning",
+    "description": "A passionate web developer with a love for creating interactive and user-friendly applications.",
+    "interests": ["Web Development", "Open Source", "Artificial Intelligence"]
+  },
+  "projects": [
+    {
+      "name": "Portfolio Website",
+      "description": "An interactive portfolio website that showcases my skills and projects in a command-line interface style.",
+      "technologies": ["HTML", "CSS", "JavaScript"],
+      "link": "https://github.com/johndoe/portfolio-website"
+    },
+    {
+      "name": "R.I.L.E.Y",
+      "description": "A web application that provides real-time weather updates using a third-party API.",
+      "technologies": ["React", "Node.js", "API Integration"],
+      "link": "https://github.com/johndoe/weather-app"
+    },
+    {
+      "name": "Task Manager",
+      "description": "A simple task management tool that helps users organize their tasks efficiently.",
+      "technologies": ["Vue.js", "Firebase"],
+      "link": "https://github.com/johndoe/task-manager"
+    }
+  ],
+  "contact": {
+    "email": "abatemanbrowning@gmail.com",
+    "linkedin": "https://www.linkedin.com/in/aden-bateman-browning/",
+    "github": "https://github.com/adenbro"
+  }
+}
