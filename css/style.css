@@ -1,46 +1,50 @@
-html {
-    height: 100%; /* Ensure html takes full height */
-    box-sizing: border-box;
+/* 1) Make html/body fill viewport and hide page-level scroll */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: scroll;       /* let the entire page scroll */
+    background: #24262d;
+    color: #519975;
+    font: 1em 'Courier New', Courier, monospace;
 }
 
 body {
-    background-color: #24262d;
-    color: #519975;
-    font-family: 'Courier New', Courier, monospace;
-    margin: 0;
-    height: 100vh; /* Set body height to full viewport height */
-    padding: 20px; /* Apply padding */
-    box-sizing: border-box; /* Include padding in height calculation */
-    overflow: hidden; /* Prevent body itself from scrolling */
-    cursor: default;
-    display: flex; /* Use flexbox on body to help contain terminal */
-    flex-direction: column; /* Stack children vertically */
-}
-
-.terminal {
-    border: 1px solid #519975;
-    flex-grow: 1; /* Allow terminal to take up remaining space in body */
-    padding: 15px;
-    overflow-y: auto; /* Use auto, or scroll for testing */
+    padding: 20px;
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
     cursor: default;
-    min-height: 0; /* Important for flex children with overflow */
 }
 
+/* 2) Terminal is full-height scroll container */
+.terminal {
+    height: 100%;
+    overflow-y: auto;    /* scrolls when content (output + input) overflows */
+    border: 1px solid #519975;
+    padding: 15px;
+    box-sizing: border-box;
+    cursor: default;
+}
+
+/* Make links in the terminal look terminal-y and clickable */
+.terminal a {
+    color: #7AB7F5;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/* 3) Remove internal #output scrolling – let .terminal handle it */
 #output {
-    flex-grow: 1; /* Allow output to take available space */
-    min-height: 0; /* Important for flex children with overflow */
+    overflow: visible;
+    margin-bottom: 10px;
     word-wrap: break-word;
     line-height: 1.4;
-    margin-bottom: 10px;
 }
 
+/* 4) Keep input directly under output, part of same scroll buffer */
 .input-area {
     display: flex;
     align-items: center;
-    flex-shrink: 0; /* Ensure input area doesn't grow */
+    margin-top: 10px;
 }
 
 #prompt { /* Add some spacing after the prompt */
@@ -108,4 +112,21 @@ body {
 
 #output .commands {
     color: #51998d; /* Or your preferred command color */
+}
+
+/* Glow effect for the `commands` keyword */
+.glow {
+    color: #7AB7F5; /* brighter blue */
+    text-shadow: 
+        0 0 4px #7AB7F5,
+        0 0 8px #7AB7F5,
+        0 0 8px #7AB7F5;
+}
+
+/* prompt: user@portfolio red, :~$ blue */
+.prompt-user {
+    color: #b89076;    /* red */
+}
+.prompt-suffix {
+    color: #51998d;    /* blue */
 }

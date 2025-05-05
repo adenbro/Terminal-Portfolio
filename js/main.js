@@ -63,31 +63,49 @@ function keepFocus() {
 }
 
 /**
- * Appends a message or HTML element to the terminal output.
- * @param {string | HTMLElement} message - The content to display.
+ * Scrolls both the terminal container and the page
+ * so the prompt/input is always in view.
+ */
+function scrollToBottom() {
+    const term = document.getElementById('terminal');
+    if (term) {
+        term.scrollTop = term.scrollHeight;
+    }
+    const inputArea = document.getElementById('input-area');
+    if (inputArea && inputArea.scrollIntoView) {
+        // bring the input area into view in the page scroll
+        inputArea.scrollIntoView({ behavior: 'auto', block: 'end' });
+    } else {
+        // fallback to scrolling the window
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+}
+
+/**
+ * Appends a message to the terminal, converting URLs into clickable links
+ * without including trailing ']' from markdown‐style [link] text.
+ * @param {string} message - The content to display.
  * @param {string[]} [classes=[]] - Optional CSS classes to add to the output line div.
  */
 function displayOutput(message, classes = []) {
-    if (!terminalOutput) return; // Exit if output element doesn't exist
-
+    if (!terminalOutput) return;
     const outputLine = document.createElement('div');
+    outputLine.style.whiteSpace = 'pre-wrap';
+    classes.forEach(c => outputLine.classList.add(c));
 
-    // Add any specified classes BEFORE adding content if they affect layout/styling
-    classes.forEach(cls => outputLine.classList.add(cls));
+    // Match URLs but stop before any ']' or whitespace
+    const urlRegex = /(https?:\/\/[^\]\s]+)/g;
 
-    if (typeof message === 'string') {
-        // Preserve whitespace and newlines
-        outputLine.style.whiteSpace = 'pre-wrap'; // Use CSS for better handling
-        outputLine.appendChild(document.createTextNode(message)); // Append text safely
-    } else if (message instanceof HTMLElement) {
-        outputLine.appendChild(message); // Append HTML element directly
-    }
+    // Replace URLs with <a> tags
+    let html = message
+        .replace(urlRegex, url => {
+            return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`;
+        })
+        .replace(/\n/g, '<br>');
 
+    outputLine.innerHTML = html;
     terminalOutput.appendChild(outputLine);
-    // Auto-scroll to the bottom to show the latest output
-    if (terminalContainer) {
-        terminalContainer.scrollTop = terminalContainer.scrollHeight;
-    }
+    scrollToBottom();
 }
 
 /**
@@ -159,8 +177,23 @@ function handleKeyDown(event) {
 }
 
 /**
- * Executes the given command string.
- * @param {string} input - The command string entered by the user.
+ * Call this to remove only non-welcome lines.
+ */
+function clearScreen() {
+    // preserve all the nodes with these classes
+    const preserve = ['.all-rights-reserved', '.welcome-message'];
+    // grab those nodes
+    const staticNodes = Array.from(
+        terminalOutput.querySelectorAll(preserve.join(','))
+    );
+    // wipe everything
+    terminalOutput.innerHTML = '';
+    // re-attach the welcome nodes in order
+    staticNodes.forEach(node => terminalOutput.appendChild(node));
+}
+
+/**
+ * Executes a command, displays output, then autoscrolls.
  */
 function executeCommand(input) {
     const [command, ...args] = input.toLowerCase().split(' ').filter(Boolean); // Split and remove empty parts
@@ -183,43 +216,24 @@ function executeCommand(input) {
             result = commands.contact ? commands.contact() : 'Contact command not available.';
             break;
         case 'clear':
-            // --- MODIFIED CLEAR LOGIC ---
-            if (terminalOutput) {
-                // Select all direct children of the output div
-                const children = Array.from(terminalOutput.children);
-                children.forEach(child => {
-                    // Remove the child IF it does NOT have the classes 'all-rights-reserved' OR 'welcome-message'
-                    if (!child.classList.contains('all-rights-reserved') && !child.classList.contains('welcome-message')) {
-                        terminalOutput.removeChild(child);
-                    }
-                });
-            }
-            // Call the imported clear function if it needs to do other cleanup (unlikely now)
-            // if (commands.clear) commands.clear(); // This might not be needed anymore
-
-             // No text output needed for clear itself
+            clearScreen();
             result = null; // Indicate no standard output to display
             break;
          case '': // Handle empty input case (already handled in handleKeyDown)
              result = null;
              break;
         default:
-            // Add a class for error messages if desired
-            // displayOutput(`Command not found: ${command}. Type 'help' for available commands.`, ['error-message']);
-             result = `Command not found: ${command}. Type 'help' for available commands.`;
-
+            result = `Command not found: ${command}. Type 'help' for available commands.`;
     }
 
     // Display the result if it's not null (clear command returns null)
     if (result !== null) {
-        // Pass the result to displayOutput. Add classes if needed.
         displayOutput(result);
     }
 
-    // Ensure scroll to bottom after command execution or clear
-    if (terminalContainer) {
-        terminalContainer.scrollTop = terminalContainer.scrollHeight;
-    }
+    scrollToBottom();
+    historyIndex = commandHistory.length; // reset history index
+    terminalInput.focus(); // keep focus on the input
 }
 
 // --- Event Listeners Setup ---

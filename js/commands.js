@@ -1,11 +1,13 @@
 function help() {
     return `
 Available commands:
-- commands: Displays this help message.
+
+- commands: Displays all commands.
 - about: Learn about my bio and interests.
 - projects: Lists my projects.
 - contact: Displays my contact information.
 - clear: Clears terminal output.
+
 `;
 }
 
@@ -22,6 +24,7 @@ I have experience in various programming languages including Python, JavaScript,
 I am particularly interested in the intersection of robotics and artificial intelligence, and I am excited about the potential of these technologies to revolutionize industries and improve our daily lives.
 
 I am currently seeking internships and co-op opportunities to gain practical experience in the field and apply my knowledge to real-world projects. If you are interested in collaborating or have any opportunities available, please feel free to reach out!
+
 `;
 }
 
@@ -29,26 +32,32 @@ function projects() {
     return `
 1. Terminal Portfolio: A web application that showcases my portfolio in a unique and fun terminal interface.
    Technologies: HTML, CSS, JavaScript
-   Link: [Project One Link]
+   Link: [https://github.com/adenbro/Terminal-Portfolio]
 
-2. R.I.L.E.Y.: Riley Project is the first big project I worked on personally. It is a personal Artificial Intelligence that is unique to me. It is an application that works on iOS, Android and Web. I utilised APIs from OpenAI and Google to create a unique experience. It is a personal assistant that can help with various tasks and provide information.
-It is a work in progress and I am constantly adding new features and improving its functionality. It remembers everything you tell it and can help with various tasks such as setting reminders, providing information, and answering questions. It is a personal assistant that is unique to me and I am excited to continue working on it.
+2. R.I.L.E.Y.: Riley Project is the first big project I worked on personally. It is a personal Artificial Intelligence that is unique to me. 
+    It is an application that works on Windows, MacOS, iOS, Android and Web. I utilised many APIs inlcuding from OpenAI and Google to create a unique experience. 
+    It is a personal assistant that can help with various tasks and provide information.
+    It is a work in progress and I am constantly adding new features and improving its functionality. 
+    It remembers everything you tell it and can help with various tasks such as setting reminders, providing information, and answering questions. 
+    It is a personal assistant that is unique to me and I am excited to continue working on it.
    Technologies: Python, JavaScript, HTML, CSS, PostgreSQL, OpenAI API, Google API,
    Link: [Project Two Link]
 
 3. Project Three: A data visualization tool for analyzing data.
    Technologies: D3.js, Python
    Link: [Project Three Link]
+
 `;
 }
 
 function contact() {
     return `
 You can reach me at:
-Email: abatemanbrowning@gmail.com
+Email: adenbrowning@icloud.com
 LinkedIn: [https://www.linkedin.com/in/aden-bateman-browning/]
 GitHub: [https://github.com/adenbro]
 Youtube: [https://www.youtube.com/@
+
 `;
 }
 
